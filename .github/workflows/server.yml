@@ -22,7 +22,7 @@ jobs:
             
         - name: "Windows x64"
           os: windows-latest
-          cmake-args: -DSERVER_COMPILE=OFF -G "Visual Studio 16 2019" -A x64
+          cmake-args: -G "Visual Studio 16 2019" -A x64
           package-file: mmoteeworlds_srv-win64.zip
           env:
             CFLAGS: /WX
@@ -49,10 +49,9 @@ jobs:
         ${{ matrix.cmake-path }}cmake --build . --config Release ${{ matrix.build-args }} --target mmoteeworlds_srv
     - name: Package
       run: |
-        cd build
         cp -r ../maps .
         zip -r9 ${{ matrix.package-file }} mmoteeworlds_srv* maps data server_lang storage.cfg libdiscordgamesdk.*
-        mv ${{ matrix.package-file }} release/artifacts
+        mv ${{ matrix.package-file }} artifacts
     - name: Upload Artifacts
       uses: actions/upload-artifact@v2-preview
       with:
