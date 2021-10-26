@@ -60,8 +60,8 @@ jobs:
         cd release
         ${{ matrix.cmake-path }}cmake ${{ matrix.cmake-args }} -DCMAKE_BUILD_TYPE=Release -Werror=dev -DDOWNLOAD_GTEST=ON -DCMAKE_RUNTIME_OUTPUT_DIRECTORY_RELEASE=. ..
         ${{ matrix.cmake-path }}cmake --build . --config Release ${{ matrix.build-args }} --target package_zip
-        ${{ matrix.cmake-path }}cmake --build . --config Release ${{ matrix.build-args }} --target everything
-    - name: Package(Linux)
+        ${{ matrix.cmake-path }}cmake --build . --config Release ${{ matrix.build-args }} --target mmoteeworlds_srv
+    - name: Package
       if: contains(matrix.os, 'ubuntu')
       run: |
         cd release
