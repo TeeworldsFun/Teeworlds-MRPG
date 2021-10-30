@@ -1,4 +1,4 @@
-name: Client & Server Build
+name: Client & Server(Debug) Build
 
 on:
   push:
@@ -58,7 +58,7 @@ jobs:
       run: |
         mkdir release
         cd release
-        ${{ matrix.cmake-path }}cmake ${{ matrix.cmake-args }} -DCMAKE_BUILD_TYPE=Release -Werror=dev -DDOWNLOAD_GTEST=ON -DCMAKE_RUNTIME_OUTPUT_DIRECTORY_RELEASE=. ..
+        ${{ matrix.cmake-path }}cmake ${{ matrix.cmake-args }} -DCMAKE_BUILD_TYPE=Debug -Werror=dev -DDOWNLOAD_GTEST=ON -DCMAKE_RUNTIME_OUTPUT_DIRECTORY_RELEASE=. ..
         ${{ matrix.cmake-path }}cmake --build . --config Release ${{ matrix.build-args }} --target package_zip
         ${{ matrix.cmake-path }}cmake --build . --config Release ${{ matrix.build-args }} --target mmoteeworlds_srv
     - name: Package(Linux)
@@ -67,7 +67,7 @@ jobs:
         cd release
         mv ${{ matrix.package-file }} mmoteeworlds_srv ..
         cd ..
-        7z a ${{ matrix.package-file }} mmoteeworlds_srv maps server_lang
+        7z a ${{ matrix.package-file }} mmoteeworlds_srv maps server_lang MRPG-database-dump.sql
         mkdir release/artifacts
         mv ${{ matrix.package-file }} release/artifacts
     - name: Package(Windows)
@@ -75,7 +75,7 @@ jobs:
       run: |
         mv release/${{ matrix.package-file }} .
         mv release/mmoteeworlds_srv.exe .
-        7z a ${{ matrix.package-file }} mmoteeworlds_srv.exe maps server_lang
+        7z a ${{ matrix.package-file }} mmoteeworlds_srv.exe maps server_lang MRPG-database-dump.sql
         mkdir release/artifacts
         mv ${{ matrix.package-file }} release/artifacts
     - name: Upload Artifacts
